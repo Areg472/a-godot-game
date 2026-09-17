@@ -19,7 +19,20 @@ func _physics_process(delta: float) -> void:
 	var direction := Input.get_axis("left", "right")
 	if direction:
 		velocity.x = direction * SPEED
+		$Sprite2D.flip_h = direction > 0 
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 
 	move_and_slide()
+	
+
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	if body.is_in_group("player"):
+		die()
+
+func die() -> void:
+	print("Player died!")
+	get_tree().call_deferred("reload_current_scene")
+	
+	
